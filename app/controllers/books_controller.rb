@@ -63,8 +63,9 @@ class BooksController < ApplicationController
 
   def vote
     @book = Book.find(params[:id]) #searches db for Book with specified ID
-    @book.vote.create
-    redirect_to(book_path) #book_path is the book list
+    @book.votes.create
+    #redirect_to(book_path) #book_path is that book's entry
+    redirect_to(books_url)
   end
 
   private
