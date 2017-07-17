@@ -25,9 +25,9 @@
         <td><%= button_to 'Vote For Book', vote_book_path(book), method: :post %></td>
         <!-- vote_book_path(book) creates a URL for that object + vote; /books/{id}/vote --!>
 
-        <td><%= link_to 'Show', book %></td>
+        <td><%= link_to 'View', book %></td>
         <td><%= link_to 'Edit', edit_book_path(book) %></td>
-        <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
