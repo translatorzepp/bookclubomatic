@@ -43,7 +43,7 @@ class BooksController < ApplicationController
   def update
     respond_to do |format|
       if @book.update(book_params)
-        format.html { redirect_to books_path, notice: 'Book was successfully updated.' }
+        format.html { redirect_to books_path, notice: 'Book successfully updated.' }
         format.json { render :show, status: :ok, location: @book }
       else
         format.html { render :edit }
@@ -57,7 +57,7 @@ class BooksController < ApplicationController
   def destroy
     @book.destroy
     respond_to do |format|
-      format.html { redirect_to books_url, notice: 'Book was successfully destroyed.' }
+      format.html { redirect_to books_url, notice: 'Book successfully deleted.' }
       format.json { head :no_content }
     end
   end
@@ -71,9 +71,18 @@ class BooksController < ApplicationController
 
   def unvote
     @book = Book.find(params[:id]) #searches db for Book with specified ID
-    @book.votes.first.destroy
+    @notice = ''
+    if @book.votes.first
+      @book.votes.first.destroy
+    else
+      @notice = 'You have not voted for this book!'
+    end
     #redirect_to(book_path) #book_path is that book's entry
-    redirect_to(books_url)
+    #redirect_to(books_url)
+    respond_to do |format|
+      format.html { redirect_to books_url, notice: @notice }
+      format.json { head :no_content }
+    end
   end
 
   private
