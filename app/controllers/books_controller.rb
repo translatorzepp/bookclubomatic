@@ -69,6 +69,13 @@ class BooksController < ApplicationController
     redirect_to(books_url)
   end
 
+  def unvote
+    @book = Book.find(params[:id]) #searches db for Book with specified ID
+    @book.votes.first.destroy
+    #redirect_to(book_path) #book_path is that book's entry
+    redirect_to(books_url)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
