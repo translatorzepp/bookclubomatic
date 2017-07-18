@@ -20,7 +20,13 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
       post books_url, params: { book: { author: @book.author, description: @book.description, genre: @book.genre, title: @book.title } }
     end
 
-    assert_redirected_to book_url(Book.last)
+    assert_redirected_to books_url
+  end
+
+  test "should not create book when no title is given" do
+    assert_no_difference('Book.count') do
+      post books_url, params: { book: { author: @book.author, description: @book.description, genre: @book.genre } }
+    end
   end
 
   test "should show book" do
@@ -35,7 +41,7 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
 
   test "should update book" do
     patch book_url(@book), params: { book: { author: @book.author, description: @book.description, genre: @book.genre, title: @book.title } }
-    assert_redirected_to book_url(@book)
+    assert_redirected_to books_url
   end
 
   test "should destroy book" do
