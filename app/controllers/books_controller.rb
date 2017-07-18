@@ -55,6 +55,8 @@ class BooksController < ApplicationController
   # DELETE /books/1
   # DELETE /books/1.json
   def destroy
+    # TODO: figure out how errors work and make this use a real error / real validations?
+    # TODO: ?? have it only validate if done via html?
     if @book.votes.first
       @notice = 'Cannot delete a book that has been voted for!'
     else
@@ -82,8 +84,6 @@ class BooksController < ApplicationController
     else
       @notice = 'You have not voted for this book!'
     end
-    #redirect_to(book_path) #book_path is that book's entry
-    #redirect_to(books_url)
     respond_to do |format|
       format.html { redirect_to books_url, notice: @notice }
       format.json { head :no_content }
@@ -100,4 +100,9 @@ class BooksController < ApplicationController
     def book_params
       params.require(:book).permit(:title, :author, :genre, :description)
     end
+
+    def vote_params
+      params.require(:vote).permit(:voter_name)
+    end
+
 end
