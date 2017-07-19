@@ -71,13 +71,13 @@ class BooksController < ApplicationController
 
   def vote
     @book = Book.find(params[:id]) #searches db for Book with specified ID
-    @book.votes.create
-    #redirect_to(book_path) #book_path is that book's entry
-    redirect_to(books_url)
+    #@book.votes.create
+    @book.votes.create(vote_params)
+    redirect_to(books_url) #book_path would be that book's entry
   end
 
   def unvote
-    @book = Book.find(params[:id]) #searches db for Book with specified ID
+    @book = Book.find(params[:id])
     @notice = ''
     if @book.votes.first
       @book.votes.first.destroy
