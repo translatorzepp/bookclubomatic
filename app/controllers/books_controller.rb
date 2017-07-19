@@ -71,7 +71,6 @@ class BooksController < ApplicationController
 
   def vote
     @book = Book.find(params[:id]) #searches db for Book with specified ID
-    #@book.votes.create
     @book.votes.create(vote_params)
     redirect_to(books_url) #book_path would be that book's entry
   end
@@ -80,6 +79,7 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @notice = ''
     if @book.votes.first
+      # TODO: change this to check if there exists a vote with a voter_name of params[:voter_name]
       @book.votes.first.destroy
     else
       @notice = 'You have not voted for this book!'
@@ -102,7 +102,7 @@ class BooksController < ApplicationController
     end
 
     def vote_params
-      params.require(:vote).permit(:voter_name)
+      params.permit(:voter_name)
     end
 
 end
