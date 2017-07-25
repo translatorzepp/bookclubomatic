@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<h2>Book</h2>
+
 <p>
   <strong>Title:</strong>
   <%= @book.title %>
@@ -22,3 +24,11 @@
 
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %>
+
+<hr>
+
+<p>
+  This book has <%= pluralize(@book.votes.count, 'vote') %>
+<% if @book.votes.any? %> from <%= @book.votes.pluck(:voter_name).join(", ") %> <% end %>
+</p>
+

@@ -57,7 +57,7 @@ class BooksController < ApplicationController
   def destroy
     # TODO: figure out how errors work and make this use a real error / real validations?
     # TODO: ?? have it only validate if done via html?
-    if @book.votes.first
+    if @book.votes.any?
       @notice = 'Cannot delete a book that has been voted for!'
     else
       @book.destroy
@@ -77,10 +77,11 @@ class BooksController < ApplicationController
 
   def unvote
     @book = Book.find(params[:id])
-    @notice = ''
-    if @book.votes.first
-      # TODO: change this to check if there exists a vote with a voter_name of params[:voter_name]
-      @book.votes.first.destroy
+    #@notice = ''
+    # TODO: ...not hard-code this
+    voters_vote = @book.votes.find_by(:voter_name => "Zoe")
+    if voters_vote
+      voters_vote.destroy
     else
       @notice = 'You have not voted for this book!'
     end
