@@ -77,7 +77,6 @@ class BooksController < ApplicationController
 
   def unvote
     @book = Book.find(params[:id])
-    #@notice = ''
     # TODO: ...not hard-code this
     voters_vote = @book.votes.find_by(:voter_name => "Zoe")
     if voters_vote
