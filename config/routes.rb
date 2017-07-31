@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'books#index' # 'controllername#controlleraction'
   resources :books do
     member do
+      get 'show_vote'
       post 'vote'
       post 'unvote'
     end

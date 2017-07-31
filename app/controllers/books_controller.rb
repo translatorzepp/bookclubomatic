@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :edit, :update, :destroy]
+  before_action :set_book, only: [:show, :edit, :update, :destroy, :vote, :unvote, :show_vote]
 
   # GET /books
   # GET /books.json
@@ -69,14 +69,21 @@ class BooksController < ApplicationController
     end
   end
 
+  def show_vote
+    respond_to do |format|
+      format.html { render :vote }
+    end
+  end
+
   def vote
-    @book = Book.find(params[:id]) #searches db for Book with specified ID
     @book.votes.create(vote_params)
-    redirect_to(books_url) #book_path would be that book's entry
+    respond_to do |format|
+      format.html { redirect_to books_url, notice: @notice }
+      format.json { head :no_content }
+    end
   end
 
   def unvote
-    @book = Book.find(params[:id])
     # TODO: ...not hard-code this
     voters_vote = @book.votes.find_by(:voter_name => "Zoe")
     if voters_vote
@@ -93,7 +100,7 @@ class BooksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
-      @book = Book.find(params[:id])
+      @book = Book.find(params[:id]) || Book.find(params[:book_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
