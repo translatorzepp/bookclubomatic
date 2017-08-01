@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   #before_action :set_book, only: [:show, :edit, :update, :destroy, :vote, :unvote, :show_vote]
   before_action :set_book, only: [:show, :edit, :update, :destroy, :vote, :unvote]
-  before_action :confirm_user, only: [:vote, :unvote]
+  before_action :confirm_reader, only: [:vote, :unvote]
 
   # GET /books
   # GET /books.json
@@ -78,7 +78,7 @@ class BooksController < ApplicationController
 
   def vote
     #@book.votes.create(vote_params)
-    @book.votes.create(:voter_name => @user_name)
+    @book.votes.create(:voter_name => @reader_name)
     respond_to do |format|
       format.html { redirect_to books_url, notice: @notice }
       format.json { head :no_content }
@@ -86,7 +86,7 @@ class BooksController < ApplicationController
   end
 
   def unvote
-    voters_vote = @book.votes.find_by(:voter_name => @user_name)
+    voters_vote = @book.votes.find_by(:voter_name => @reader_name)
     if voters_vote
       voters_vote.destroy
     else
@@ -113,12 +113,12 @@ class BooksController < ApplicationController
     #   params.permit(:voter_name)
     # end
 
-    def confirm_user
-      if session[:current_user_name]
-        @user_name = session[:current_user_name]
+    def confirm_reader
+      if session[:current_reader_name]
+        @user_name = session[:current_reader_name]
       else
         respond_to do |format|
-          format.html { redirect_to user_url }
+          format.html { redirect_to find_or_create_reader_url }
           format.json { head :no_content }
         end
       end

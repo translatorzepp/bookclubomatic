@@ -1,15 +1,15 @@
 <%= form_with(model: reader, local: true) do |form| %>
-  <% if reader.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(reader.errors.count, "error") %> prohibited this reader from being saved:</h2>
-
-      <ul>
-      <% reader.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%# <% if reader.errors.any? %>
+  <%#   <div id="error_explanation">
+    <%#     <h2><%= pluralize(reader.errors.count, "error") %> <! --prohibited this reader from being saved:  --></h2>
+  <%#
+  <%#     <ul>
+  <%#     <% reader.errors.full_messages.each do |message| %>
+  <%#       <li><%= message %></li>
+  <%#     <% end %>
+  <%#     </ul>
+  <%#   </div>
+  <%# <% end %>
 
   <div class="field">
     <%= form.label :name %>

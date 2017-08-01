@@ -21,6 +21,20 @@ class ReadersController < ApplicationController
   def edit
   end
 
+  def find_or_create
+    if request.post?
+      @reader = Reader.find_by(:name => params[:voter_name])
+      if @reader
+        session[:current_reader_name] = @reader.name
+        respond_to do |format|
+          format.html { redirect_to index, notice: 'You are now ready to vote.' } #redirect to vote
+        end
+      else
+        create
+      end
+    end
+  end
+
   # POST /readers
   # POST /readers.json
   def create
@@ -28,7 +42,8 @@ class ReadersController < ApplicationController
 
     respond_to do |format|
       if @reader.save
-        format.html { redirect_to @reader, notice: 'Reader was successfully created.' }
+        session[:current_reader_name] = @reader.name
+        format.html { redirect_to index, notice: 'Reader was successfully created.' }
         format.json { render :show, status: :created, location: @reader }
       else
         format.html { render :new }
