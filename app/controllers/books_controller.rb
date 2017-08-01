@@ -1,5 +1,7 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :edit, :update, :destroy, :vote, :unvote, :show_vote]
+  #before_action :set_book, only: [:show, :edit, :update, :destroy, :vote, :unvote, :show_vote]
+  before_action :set_book, only: [:show, :edit, :update, :destroy, :vote, :unvote]
+  before_action :confirm_user, only: [:vote, :unvote]
 
   # GET /books
   # GET /books.json
@@ -56,7 +58,6 @@ class BooksController < ApplicationController
   # DELETE /books/1.json
   def destroy
     # TODO: figure out how errors work and make this use a real error / real validations?
-    # TODO: ?? have it only validate if done via html?
     if @book.votes.any?
       @notice = 'Cannot delete a book that has been voted for!'
     else
@@ -69,14 +70,15 @@ class BooksController < ApplicationController
     end
   end
 
-  def show_vote
-    respond_to do |format|
-      format.html { render :vote }
-    end
-  end
+  # def show_vote
+  #   respond_to do |format|
+  #     format.html { render :vote }
+  #   end
+  # end
 
   def vote
-    @book.votes.create(vote_params)
+    #@book.votes.create(vote_params)
+    @book.votes.create(:voter_name => @user_name)
     respond_to do |format|
       format.html { redirect_to books_url, notice: @notice }
       format.json { head :no_content }
@@ -84,8 +86,7 @@ class BooksController < ApplicationController
   end
 
   def unvote
-    # TODO: ...not hard-code this
-    voters_vote = @book.votes.find_by(:voter_name => "Zoe")
+    voters_vote = @book.votes.find_by(:voter_name => @user_name)
     if voters_vote
       voters_vote.destroy
     else
@@ -108,8 +109,19 @@ class BooksController < ApplicationController
       params.require(:book).permit(:title, :author, :genre, :description)
     end
 
-    def vote_params
-      params.permit(:voter_name)
+    # def vote_params
+    #   params.permit(:voter_name)
+    # end
+
+    def confirm_user
+      if session[:current_user_name]
+        @user_name = session[:current_user_name]
+      else
+        respond_to do |format|
+          format.html { redirect_to user_url }
+          format.json { head :no_content }
+        end
+      end
     end
 
 end

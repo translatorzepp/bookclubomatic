@@ -23,7 +23,7 @@
 
         <td><%= pluralize(book.votes.count, 'vote') %></td>
         <!-- <td><%= button_to 'Vote For Book', vote_book_path(book), method: :post, params: { voter_name: "Zoe" } %></td> -->
-        <td><%= button_to 'Vote For Book', show_vote_book_path(book), method: :get %></td>
+        <td><%= button_to 'Vote For Book', vote_book_path(book), method: :post %></td>
         <!-- vote_book_path(book) creates a URL for that object + vote; /books/{id}/vote --!>
         <td><%= button_to 'Cancel My Vote', unvote_book_path(book), method: :post %></td>
 
