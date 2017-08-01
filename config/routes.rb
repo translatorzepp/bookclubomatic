@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :readers
   root 'books#index' # 'controllername#controlleraction'
   resources :books do
     member do
