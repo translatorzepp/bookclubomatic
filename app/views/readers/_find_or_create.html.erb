@@ -1,0 +1,15 @@
+<h3>Reader: Enter Your Name</h3>
+
+<%= form_with(url: find_or_create_reader_path, model: reader, local: true) do |form| %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :reader_name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Find or Create" %>
+  </div>
+<% end %>
+
+<%= link_to "Back", readers_path %>

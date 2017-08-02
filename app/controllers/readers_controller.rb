@@ -22,16 +22,14 @@ class ReadersController < ApplicationController
   end
 
   def find_or_create
-    if request.post?
-      @reader = Reader.find_by(:name => params[:voter_name])
-      if @reader
-        session[:current_reader_name] = @reader.name
-        respond_to do |format|
-          format.html { redirect_to index, notice: 'You are now ready to vote.' } #redirect to vote
-        end
-      else
-        create
+    @reader = Reader.find_by(:name => params[:voter_name])
+    if @reader
+      session[:current_reader_name] = @reader.name
+      respond_to do |format|
+        format.html { redirect_to index, notice: 'You are now ready to vote.' } #redirect to vote
       end
+    else
+      create
     end
   end
 
