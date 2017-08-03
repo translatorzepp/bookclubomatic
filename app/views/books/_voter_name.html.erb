@@ -1,0 +1,10 @@
+<%= form_with(local: true) do |form| %>
+  <div class="field">
+    <%= form.label "Enter your name to vote:" %>
+    <%= form.text_field :voter_name, id: :voter_name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,10 +1,11 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :edit, :update, :destroy, :vote, :unvote, :show_vote]
+  before_action :set_book, only: [:show, :edit, :update, :destroy, :vote, :unvote]
 
   # GET /books
   # GET /books.json
   def index
     @books = Book.all
+    session[:current_voter_name] = "Zoe"
   end
 
   # GET /books/1
@@ -69,12 +70,6 @@ class BooksController < ApplicationController
     end
   end
 
-  def show_vote
-    respond_to do |format|
-      format.html { render :vote }
-    end
-  end
-
   def vote
     @book.votes.create(vote_params)
     respond_to do |format|
@@ -85,7 +80,7 @@ class BooksController < ApplicationController
 
   def unvote
     # TODO: ...not hard-code this
-    voters_vote = @book.votes.find_by(:voter_name => "Zoe")
+    voters_vote = @book.votes.find_by(vote_params)
     if voters_vote
       voters_vote.destroy
     else
@@ -95,6 +90,10 @@ class BooksController < ApplicationController
       format.html { redirect_to books_url, notice: @notice }
       format.json { head :no_content }
     end
+  end
+
+  def set_voter_name
+    session[:current_voter_name] = params[:voter_name]
   end
 
   private

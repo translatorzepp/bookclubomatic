@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   root 'books#index' # 'controllername#controlleraction'
+
   resources :books do
     member do
-      get 'show_vote'
       post 'vote'
       post 'unvote'
+      post 'set_voter_name'
     end
   end
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
