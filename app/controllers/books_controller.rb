@@ -5,7 +5,7 @@ class BooksController < ApplicationController
   # GET /books.json
   def index
     @books = Book.all
-    session[:current_voter_name] = "Zoe"
+    session[:current_voter_name] = vote_params[:voter_name] unless session[:current_voter_name]
   end
 
   # GET /books/1
@@ -79,8 +79,7 @@ class BooksController < ApplicationController
   end
 
   def unvote
-    # TODO: ...not hard-code this
-    voters_vote = @book.votes.find_by(vote_params)
+    voters_vote = @book.votes.find_by(:voter_name => session[:current_voter_name])
     if voters_vote
       voters_vote.destroy
     else
@@ -92,23 +91,20 @@ class BooksController < ApplicationController
     end
   end
 
-  def set_voter_name
-    session[:current_voter_name] = params[:voter_name]
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_book
+    @book = Book.find(params[:id]) || Book.find(params[:book_id])
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_book
-      @book = Book.find(params[:id]) || Book.find(params[:book_id])
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def book_params
+    params.require(:book).permit(:title, :author, :genre, :description)
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def book_params
-      params.require(:book).permit(:title, :author, :genre, :description)
-    end
-
-    def vote_params
-      params.permit(:voter_name)
-    end
+  def vote_params
+    params.permit(:voter_name)
+  end
 
 end

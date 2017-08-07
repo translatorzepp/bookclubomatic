@@ -1,7 +1,9 @@
-<%= form_with(local: true) do |form| %>
+<h2>Voting</h2>
+
+<%= form_with(local: true, method: :get) do |form| %>
   <div class="field">
-    <%= form.label "Enter your name to vote:" %>
-    <%= form.text_field :voter_name, id: :voter_name %>
+    <%= form.label "Enter your name in order to vote above:" %>
+    <%= form.text_field :voter_name, id: :voter_name, placeholder: session[:current_voter_name] %>
   </div>
 
   <div class="actions">

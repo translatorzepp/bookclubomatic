@@ -23,7 +23,10 @@
 </p>
 
 <%= link_to 'Edit', edit_book_path(@book) %> |
-<%= link_to 'Back', books_path %>
+<%= link_to 'Delete', @book, method: :delete, data: { confirm: 'Are you sure?' } %>
+
+<br>
+<%= button_to 'Back', books_path, method: :get %>
 
 <hr>
 
