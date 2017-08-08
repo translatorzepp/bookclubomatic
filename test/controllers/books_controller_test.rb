@@ -51,4 +51,19 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to books_url
   end
+
+  test "should vote for book" do
+    assert_difference('@book.votes.count') do
+      post vote_book_path(@book), params: { voter_name: "Voter" }
+    end
+  end
+
+  # test "should not destroy book if it has a vote" do
+  #   # vote for @book
+  #   assert_no_difference('Book.count') do
+  #     delete book_url(@book)
+  #   end
+  #
+  #   assert_redirected_to books_url
+  # end
 end
