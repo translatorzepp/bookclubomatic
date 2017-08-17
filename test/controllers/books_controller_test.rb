@@ -58,6 +58,18 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "should destroy a vote for a book" do
+    assert_difference('@book.votes.count', -1) do
+      post unvote_book_path(@book), params: { voter_name: "Voter" }
+    end
+  end
+
+  test "should not destroy a vote for a book" do
+    assert_difference('@book.votes.count', -1) do
+      post unvote_book_path(@book), params: { voter_name: "Voter" }
+    end
+  end
+
   # test "should not destroy book if it has a vote" do
   #   # vote for @book
   #   assert_no_difference('Book.count') do
