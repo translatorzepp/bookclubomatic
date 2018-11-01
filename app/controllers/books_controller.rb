@@ -5,7 +5,10 @@ class BooksController < ApplicationController
   # GET /books.json
   def index
     @books = Book.all
-    session[:current_voter_name] = vote_params[:voter_name] if vote_params[:voter_name]
+    # session[:current_voter_name] = vote_params[:voter_name] if vote_params[:voter_name]
+    SessionService.set_voter_name(vote_params)
+    # session_service = SessionService.new
+    # session_service.set_voter_name(vote_params)
   end
 
   # GET /books/1
